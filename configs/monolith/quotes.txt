@@ -1,0 +1,34 @@
+# Monolith scenario
+# meshsim sample quotes — motivational, technology & IT themed
+# One or two sentences per line. Lines starting with # are ignored.
+
+Any fool can write code that a computer can understand. Good programmers write code that humans can understand. — Martin Fowler
+The best error message is the one that never shows up. — Thomas Fuchs
+Simplicity is the soul of efficiency. — Austin Freeman
+First, solve the problem. Then, write the code. — John Johnson
+Make it work, make it right, make it fast. — Kent Beck
+The most powerful tool we have as developers is automation. — Scott Hanselman
+Code is like humor. When you have to explain it, it's bad. — Cory House
+Programs must be written for people to read, and only incidentally for machines to execute. — Harold Abelson
+The function of good software is to make the complex appear simple. — Grady Booch
+Talk is cheap. Show me the code. — Linus Torvalds
+Good code is its own best documentation. — Steve McConnell
+Debugging is twice as hard as writing the code in the first place. — Brian Kernighan
+The best performance improvement is the transition from the nonworking state to the working state. — John Ousterhout
+In software, the most beautiful code, the most beautiful functions, and the most beautiful programs are sometimes not there at all. — Jon Bentley
+Software is a great combination of artistry and engineering. — Bill Gates
+One machine can do the work of fifty ordinary men. No machine can do the work of one extraordinary man. — Elbert Hubbard
+The Internet is becoming the town square for the global village of tomorrow. — Bill Gates
+Infrastructure as code means your network is programmable. Own it. — Anonymous
+Automate everything you have to do more than once. — Anonymous
+Measure twice, deploy once. — DevOps proverb
+You can't manage what you can't monitor. — Peter Drucker (adapted)
+Ship early, ship often, iterate always. — Silicon Valley proverb
+The cloud is just someone else's computer — treat it like your own. — Anonymous
+Design for failure; everything breaks eventually. — Werner Vogels
+The network is the computer. — John Gage, Sun Microsystems
+An API is only as good as its documentation. — Anonymous
+Resilience is not about avoiding failure, it's about recovering from it faster. — Anonymous
+Every line of code you don't write is a line you don't have to debug. — Anonymous
+Keep it simple, keep it running. — SRE proverb
+A distributed system is one in which the failure of a computer you didn't even know existed can render your own computer unusable. — Leslie Lamport

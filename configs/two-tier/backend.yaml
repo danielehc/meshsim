@@ -1,0 +1,16 @@
+name: "Backend"
+color: "#a855f7"          # purple
+icon: "fa-database"
+port: 8081
+upstreams: []
+qos:
+  latency_ms: 8
+  jitter_ms: 4
+  failure_rate: 0.0
+  error_rate: 0.0
+quotes_enabled: true
+quotes_file: "configs/two-tier/quotes.txt"
+products_enabled: true
+products_file: "configs/two-tier/products.txt"
+counter_enabled: true
+ui_refresh_secs: 5

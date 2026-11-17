@@ -1,0 +1,14 @@
+name: "Frontend"
+color: "#347a16"          # green
+icon: "fa-globe"
+port: 8080
+upstreams:
+  - name: "Backend"
+    address: "localhost"
+    port: 8081
+qos:
+  latency_ms: 0
+  jitter_ms: 0
+  failure_rate: 0.0
+  error_rate: 0.0
+ui_refresh_secs: 5

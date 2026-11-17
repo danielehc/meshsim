@@ -1,0 +1,15 @@
+# meshsim sample products — one per line
+# Format: <product name> | <fa-icon>
+# Product name: two words, max 15 chars total. Icon: Font Awesome solid name.
+# Lines starting with # are ignored.
+
+Nimbus Cache | fa-bolt
+Vault Guard | fa-lock
+Pixel Stream | fa-satellite-dish
+Iron Queue | fa-envelope
+Atlas Search | fa-globe
+Flux Gateway | fa-network-wired
+Ember Store | fa-hard-drive
+Harbor Mesh | fa-spider
+Beacon Auth | fa-key
+Orbit Relay | fa-shuffle

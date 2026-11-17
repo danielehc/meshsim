@@ -1,0 +1,14 @@
+name: "AppLogic"
+color: "#3b82f6"          # blue — application tier
+icon: "fa-server"
+port: 8081
+upstreams:
+  - name: "Backend"
+    address: "localhost"
+    port: 8082
+qos:
+  latency_ms: 50          # noticeable but healthy baseline latency
+  jitter_ms: 20
+  failure_rate: 0.3       # fails 30% of the time — simulates a degraded service
+  error_rate: 0.0
+ui_refresh_secs: 3

@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>meshsim</title>
+<link rel="stylesheet" href="/ui/styles.css"/>
+<!-- Config injected by Go handler — must appear before app.js -->
+<script>
+var CONFIG = __MESHSIM_CONFIG__;
+</script>
+</head>
+<body>
+
+<!-- Status bar -->
+<div id="statusbar">
+  <h1>&#x2B21; meshsim</h1>
+  <button id="refresh-btn">&#x21BA; Refresh</button>
+  <label class="tog" title="Toggle light / dark mode">
+    <span>&#x263C;</span>
+    <div class="tog-track" id="tog-track"><div class="tog-thumb"></div></div>
+    <span>&#x263D;</span>
+  </label>
+  <div id="last-update">Last update: <span id="ts">&#x2014;</span></div>
+</div>
+
+<!-- Graph canvas -->
+<div id="canvas-wrap">
+  <div id="err"></div>
+
+  <!-- WebApp overlay — shown/hidden by JS -->
+  <div id="webapp-node">
+    <div id="wa-titlebar">
+      <div class="wa-dots">
+        <div class="wa-dot" style="background:#ef4444"></div>
+        <div class="wa-dot" style="background:#f59e0b"></div>
+        <div class="wa-dot" style="background:#22c55e"></div>
+      </div>
+      <span id="wa-title">Microservices App</span>
+    </div>
+    <div id="wa-product">
+      <svg id="wa-product-icon" width="57" height="57" viewBox="0 0 512 512"></svg>
+      <div id="wa-product-name">Company Product</div>
+    </div>
+    <div id="wa-desc">
+      <p id="wa-desc-text">No product description.</p>
+    </div>
+    <div id="wa-footer">
+      <button id="wa-btn">
+        <svg width="12" height="12" viewBox="0 0 512 512" id="wa-btn-icon" style="vertical-align:middle;margin-right:4px"></svg>
+        <span id="wa-btn-text">Buy</span>
+      </button>
+    </div>
+  </div>
+
+  <svg id="diagram" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+      <marker id="dot-end" markerWidth="10" markerHeight="10"
+              refX="5" refY="5" orient="auto">
+        <circle id="marker-dot" cx="5" cy="5" r="3.5" fill="#4b5563"/>
+      </marker>
+    </defs>
+    <g id="scene">
+      <g id="edges-layer"></g>
+      <g id="nodes-layer"></g>
+    </g>
+  </svg>
+</div>
+
+<script src="/ui/app.js"></script>
+</body>
+</html>

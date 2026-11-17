@@ -1,0 +1,13 @@
+name: "Products"
+color: "#f59e0b"          # amber
+icon: "fa-box-open"
+port: 8082
+upstreams: []
+qos:
+  latency_ms: 12
+  jitter_ms: 6
+  failure_rate: 0.0
+  error_rate: 0.0
+products_enabled: true
+products_file: "configs/microservices/products.txt"
+ui_refresh_secs: 5

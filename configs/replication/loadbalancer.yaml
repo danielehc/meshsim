@@ -1,0 +1,18 @@
+name: "LoadBalancer"
+color: "#1d4ed8"          # dark blue
+icon: "fa-shuffle"
+port: 8080
+round_robin: true         # only calls one frontend per request, alternating
+upstreams:
+  - name: "Frontend_1"
+    address: "localhost"
+    port: 8081
+  - name: "Frontend_2"
+    address: "localhost"
+    port: 8082
+qos:
+  latency_ms: 0
+  jitter_ms: 0
+  failure_rate: 0.0
+  error_rate: 0.0
+ui_refresh_secs: 3

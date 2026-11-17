@@ -1,0 +1,14 @@
+name: "AppLogic"
+color: "#3b82f6"          # blue
+icon: "fa-server"
+port: 8081
+upstreams:
+  - name: "Backend"
+    address: "localhost"
+    port: 8082
+qos:
+  latency_ms: 15
+  jitter_ms: 8
+  failure_rate: 0.0
+  error_rate: 0.0
+ui_refresh_secs: 5

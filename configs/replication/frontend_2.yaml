@@ -1,0 +1,16 @@
+name: "Frontend_2"
+color: "#347a16"
+icon: "fa-globe"
+tag: "r2"
+tag_color: "#4ade80"
+port: 8082
+upstreams:
+  - name: "AppLogic_2"
+    address: "localhost"
+    port: 8084
+qos:
+  latency_ms: 2
+  jitter_ms: 1
+  failure_rate: 0.0
+  error_rate: 0.0
+ui_refresh_secs: 5

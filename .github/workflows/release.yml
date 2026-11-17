@@ -1,0 +1,137 @@
+name: CI and Release
+
+# Pull requests: run checks only.
+# Pushes to main: run checks, then publish binaries.
+#   - tag v<VERSION> does not exist yet -> stable release v<VERSION>
+#   - tag v<VERSION> already exists     -> rolling "edge" prerelease
+# See docs/releasing.md.
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  check:
+    name: Check
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-go@v5
+        with:
+          go-version-file: go.mod
+
+      - name: Validate VERSION file
+        run: |
+          version="$(tr -d '[:space:]' < VERSION)"
+          if ! [[ "$version" =~ ^(0|[1-9][0-9]*)\.(0|[1-9][0-9]*)\.(0|[1-9][0-9]*)$ ]]; then
+            echo "::error file=VERSION::'$version' is not a valid MAJOR.MINOR.PATCH version"
+            exit 1
+          fi
+
+      - name: gofmt
+        run: |
+          unformatted="$(gofmt -l .)"
+          if [ -n "$unformatted" ]; then
+            echo "::error::These files need gofmt:"
+            echo "$unformatted"
+            exit 1
+          fi
+
+      - name: go vet
+        run: go vet ./...
+
+      - name: go test
+        run: go test ./...
+
+  release:
+    name: Release
+    needs: check
+    if: github.event_name != 'pull_request' && github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write # create tags and releases
+    # Serialize releases so the moving "edge" release is never updated concurrently.
+    concurrency:
+      group: release
+      cancel-in-progress: false
+    env:
+      GH_TOKEN: ${{ github.token }}
+      CGO_ENABLED: "0"
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0 # need existing tags to decide stable vs edge
+
+      - uses: actions/setup-go@v5
+        with:
+          go-version-file: go.mod
+
+      - name: Decide release type and version
+        id: version
+        run: |
+          base="$(tr -d '[:space:]' < VERSION)"
+          short="${GITHUB_SHA::7}"
+          if git rev-parse -q --verify "refs/tags/v${base}" >/dev/null; then
+            echo "kind=edge" >> "$GITHUB_OUTPUT"
+            echo "tag=edge" >> "$GITHUB_OUTPUT"
+            echo "version=${base}-edge+${short}" >> "$GITHUB_OUTPUT"
+          else
+            echo "kind=stable" >> "$GITHUB_OUTPUT"
+            echo "tag=v${base}" >> "$GITHUB_OUTPUT"
+            echo "version=${base}" >> "$GITHUB_OUTPUT"
+          fi
+          echo "base=${base}" >> "$GITHUB_OUTPUT"
+          echo "short=${short}" >> "$GITHUB_OUTPUT"
+
+      - name: Build binaries
+        run: make dist VERSION="${{ steps.version.outputs.version }}"
+
+      - name: Smoke test linux-amd64 binary
+        run: |
+          ./dist/meshsim-linux-amd64 --config configs/monolith/frontend.yaml \
+            > meshsim.log 2>&1 &
+          pid=$!
+          for _ in $(seq 1 20); do
+            if curl -fsS http://localhost:8080/health >/dev/null 2>&1; then
+              kill "$pid"
+              grep -F "[meshsim ${{ steps.version.outputs.version }}]" meshsim.log >/dev/null
+              exit 0
+            fi
+            sleep 0.5
+          done
+          kill "$pid" 2>/dev/null || true
+          cat meshsim.log
+          echo "::error::meshsim did not become healthy"
+          exit 1
+
+      - name: Generate checksums
+        working-directory: dist
+        run: sha256sum meshsim-* > SHA256SUMS
+
+      - name: Publish stable release
+        if: steps.version.outputs.kind == 'stable'
+        run: |
+          gh release create "${{ steps.version.outputs.tag }}" dist/* \
+            --target "$GITHUB_SHA" \
+            --title "meshsim v${{ steps.version.outputs.base }}" \
+            --generate-notes \
+            --latest
+
+      - name: Publish edge prerelease
+        if: steps.version.outputs.kind == 'edge'
+        run: |
+          # Replace the previous edge release (and its tag) with the current commit.
+          gh release delete edge --cleanup-tag --yes || true
+          gh release create edge dist/* \
+            --target "$GITHUB_SHA" \
+            --title "meshsim edge (${{ steps.version.outputs.short }})" \
+            --notes "Rolling build of \`main\` at ${GITHUB_SHA}. Reports version \`${{ steps.version.outputs.version }}\`. Not a stable release; use the latest versioned release for production." \
+            --prerelease \
+            --latest=false

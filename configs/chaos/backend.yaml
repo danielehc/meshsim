@@ -1,0 +1,16 @@
+name: "Backend"
+color: "#a855f7"          # purple — data tier
+icon: "fa-database"
+port: 8082
+upstreams: []
+qos:
+  latency_ms: 200         # very slow — simulates a saturated database
+  jitter_ms: 150
+  failure_rate: 0.0
+  error_rate: 0.0
+quotes_enabled: true
+quotes_file: "configs/chaos/quotes.txt"
+products_enabled: true
+products_file: "configs/chaos/products.txt"
+counter_enabled: true
+ui_refresh_secs: 3

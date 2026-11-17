@@ -1,0 +1,16 @@
+name: "Monolith"
+color: "#6b21a8"          # deep purple
+icon: "fa-layer-group"
+port: 8080
+upstreams: []
+qos:
+  latency_ms: 5
+  jitter_ms: 3
+  failure_rate: 0.0
+  error_rate: 0.0
+quotes_enabled: true
+quotes_file: "configs/monolith/quotes.txt"
+products_enabled: true
+products_file: "configs/monolith/products.txt"
+counter_enabled: true
+ui_refresh_secs: 5

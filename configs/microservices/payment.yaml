@@ -1,0 +1,14 @@
+name: "Payment"
+color: "#ef4444"          # red
+icon: "fa-dollar-sign"
+port: 8083
+upstreams:
+  - name: "Backend"
+    address: "localhost"
+    port: 8084
+qos:
+  latency_ms: 20
+  jitter_ms: 10
+  failure_rate: 0.0
+  error_rate: 0.0
+ui_refresh_secs: 5

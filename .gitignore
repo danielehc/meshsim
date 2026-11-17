@@ -1,0 +1,16 @@
+# Build output (anchored so cmd/meshsim/ is not ignored)
+/meshsim
+/meshsim.exe
+/dist/
+
+# Go toolchain
+*.test
+*.out
+
+# macOS
+.DS_Store
+
+# Editor
+.vscode/
+.idea/
+*.swp
